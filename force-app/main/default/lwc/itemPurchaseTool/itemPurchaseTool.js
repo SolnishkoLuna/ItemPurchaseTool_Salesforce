@@ -4,6 +4,7 @@ import getProducts from '@salesforce/apex/ItemPurchaseController.getProducts';
 export default class ItemPurchaseTool extends LightningElement {
     @api recordId;
     @track products = [];
+    @track cart = [];
     searchTerm = '';
     selectedFamily = '';
 
@@ -62,6 +63,18 @@ export default class ItemPurchaseTool extends LightningElement {
         }
     }
 
+    handleAddToCart(event) {
+            const productId = event.target.dataset.id;
+            const product = this.products.find(item => item.Id === productId);
+
+            if (product) {
+                const isAlreadyInCart = this.cart.some(item => item.Id === productId);
+                if (!isAlreadyInCart) {
+                    // Используем спред-оператор [...], чтобы LWC заметил изменение массива
+                    this.cart = [...this.cart, product];
+                }
+            }
+        }
     connectedCallback() {
         this.loadProducts();
     }
