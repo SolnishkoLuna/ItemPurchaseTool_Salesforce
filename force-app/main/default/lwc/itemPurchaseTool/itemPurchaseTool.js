@@ -5,6 +5,7 @@ export default class ItemPurchaseTool extends LightningElement {
     @api recordId;
     @track products = [];
     @track cart = [];
+    @track isModalOpen = false;
     searchTerm = '';
     selectedFamily = '';
 
@@ -12,6 +13,23 @@ export default class ItemPurchaseTool extends LightningElement {
 
     get itemsCount() {
         return this.products ? this.products.length : 0;
+    }
+
+    get isCartEmpty() {
+        return this.cart.length === 0;
+    }
+    openModal() {
+        this.isModalOpen = true;
+    }
+
+    closeModal() {
+        this.isModalOpen = false;
+    }
+
+    handleConfirmPurchase() {
+        alert('Order for ' + this.cart.length + ' items has been placed!');
+        this.cart = [];
+        this.isModalOpen = false;
     }
 
     get familyOptions() {
