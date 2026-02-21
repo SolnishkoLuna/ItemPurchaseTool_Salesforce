@@ -1,42 +1,41 @@
 <template>
-    <div class="slds-p-around_medium slds-background-color_white">
-        <lightning-record-view-form record-id={recordId} object-api-name="Account">
-            <div class="slds-grid slds-wrap slds-m-bottom_medium">
-                <lightning-output-field field-name="Name" class="slds-col slds-size_1-of-3"></lightning-output-field>
-                <lightning-output-field field-name="AccountNumber" class="slds-col slds-size_1-of-3"></lightning-output-field>
-                <lightning-output-field field-name="Industry" class="slds-col slds-size_1-of-3"></lightning-output-field>
-            </div>
-        </lightning-record-view-form>
-
-        <hr />
-
-        <div class="slds-grid slds-gutters slds-m-bottom_small">
-            <div class="slds-col slds-size_2-of-3">
+    <div class="slds-p-around_medium slds-is-relative">
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_3-of-4">
                 <lightning-input
                         type="search"
                         label="Search Item"
-                        placeholder="Search by name or description..."
-                        onchange={handleSearchChange}>
+                        onchange={handleSearchChange}
+                        class="slds-m-bottom_small">
                 </lightning-input>
-            </div>
-            <div class="slds-col slds-size_1-of-3 slds-text-align_right slds-m-top_large">
-                <lightning-button label="Cart" icon-name="utility:cart" variant="outline"></lightning-button>
-            </div>
-        </div>
 
-        <div class="slds-grid slds-wrap slds-gutters">
-            <template for:each={products} for:item="prod">
-                <div key={prod.Id} class="slds-col slds-size_1-of-2 slds-m-bottom_small">
-                    <div class="slds-box slds-box_x-small">
-                        <p class="slds-text-heading_small slds-truncate">{prod.Name}</p>
-                        <p class="slds-text-body_small">{prod.ProductCode}</p>
-                        <div class="slds-m-top_x-small">
-                            <lightning-button label="Details" variant="neutral" size="small"></lightning-button>
-                            <lightning-button label="Add" variant="brand" size="small" class="slds-m-left_x-small"></lightning-button>
+                <div class="slds-grid slds-wrap">
+                    <template for:each={products} for:item="prod">
+                        <div key={prod.Id} class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                            <div class="slds-box slds-box_x-small">
+                                <div class="slds-m-bottom_small" style="height: 100px; overflow: hidden;">
+                                    <img src={prod.imageUrl} alt={prod.Name} style="width: 100%; object-fit: cover;" />
+                                </div>
+
+                                <p class="slds-text-heading_small slds-truncate">{prod.Name}</p>
+                                <p class="slds-text-body_small">{prod.ProductCode}</p>
+                            </div>
                         </div>
-                    </div>
+                    </template>
                 </div>
-            </template>
+            </div>
+
+            <div class="slds-col slds-size_1-of-4 slds-border_left">
+                <h2 class="slds-text-heading_small slds-m-bottom_small">FILTERS</h2>
+                <p class="slds-m-bottom_small">Items found: <strong>{itemsCount}</strong></p>
+
+                <lightning-combobox
+                        label="Family"
+                        value={selectedFamily}
+                        options={familyOptions}
+                        onchange={handleFamilyChange}>
+                </lightning-combobox>
+            </div>
         </div>
     </div>
 </template>
